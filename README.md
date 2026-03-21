@@ -5,3 +5,6 @@ Service to manage round-robin sports tournaments
 
 npm init
 npm install express
+npm install sqlite3
+npm install sequelize
+
