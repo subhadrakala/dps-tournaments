@@ -22,3 +22,34 @@ export const getAllTournaments = async () => {
         throw error;
     }
 }
+
+export const updateTournament = async (id, status) => {
+    try {
+        const tournament = await Tournament.update({
+            status
+        }, {
+            where: {
+                id
+            }
+        });
+        return tournament;
+    } catch (error) {
+        console.error('Error updating tournament status:', error);
+        throw error;
+    }
+}
+
+export const getTournamentById = async (id) => {
+    try {
+        const tournament = await Tournament.findOne({
+            where: {
+                id
+            }
+        });
+
+        return tournament;
+    } catch (error) {
+        console.error('Error fetching tournament by id:', error);
+        throw error;
+    }
+}

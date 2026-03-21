@@ -24,3 +24,40 @@ export const getAllTournaments = async (req, res, next) => {
         throw error;
     }
 }
+
+export const updateTournament = async (req, res, next) => {
+    try {
+        const id = req.params.id;
+
+        // Note: need to change to generic update later
+        const status = req.body.status;
+
+
+        const tournament = await tournamentService.updateTournament(id, status);
+        return tournament;
+    } catch (error) {
+        console.error('Error updating tournament status:', error);
+        throw error;
+    }
+}
+
+export const getTournamentById = async (req, res, next) => {
+    try {
+        const id = req.params.id;
+        const tournament = await tournamentService.getTournamentById(id);
+
+        if (!tournament) {
+            res.status(404).json({
+                message: 'Tournament not found'
+            });
+        
+        }
+        else {
+            res.status(200).json(tournament);
+        }
+        
+    } catch (error) {
+        console.error('Error fetching tournament by id:', error);
+        throw error;
+    }
+}
