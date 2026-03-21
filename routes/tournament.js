@@ -1,10 +1,13 @@
 import express from "express";
 import * as tournamentController from "../controllers/tournament.js";
+import { validateRequest } from "../middleware/validation.js";
+import { createTournamentSchema } from "../validations/tournamentValidations.js";
 
 const router = express.Router();
 
 router.route('/tournaments')
-    .post(async (req, res, next) => {
+    .post(
+        validateRequest(createTournamentSchema), async (req, res, next) => {
         try {
             const result = await tournamentController.createTournament(req, res, next);
             res.status(201).json(result);

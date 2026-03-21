@@ -7,4 +7,5 @@ npm init
 npm install express
 npm install sqlite3
 npm install sequelize
+npm install zod
 
