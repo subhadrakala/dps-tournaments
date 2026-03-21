@@ -20,6 +20,7 @@ router.route('/tournaments')
             next(error);
         }
     });
+
 router.route('/tournaments/:id')
     .put(async (req, res, next) => {
         try {
@@ -33,6 +34,14 @@ router.route('/tournaments/:id')
     .get(async (req, res, next) => {
         try {
             const result = await tournamentController.getTournamentById(req, res, next);
+            res.status(201).json(result);
+        } catch (error) {
+            next(error);
+        }
+    })
+    .delete(async (req, res, next) => {
+        try {
+            const result = await tournamentController.deleteTournament(req, res, next);
             res.status(201).json(result);
         } catch (error) {
             next(error);

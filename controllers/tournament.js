@@ -61,3 +61,14 @@ export const getTournamentById = async (req, res, next) => {
         throw error;
     }
 }
+
+export const deleteTournament = async (req, res, next) => {
+    try {
+        const id = req.params.id;
+        const tournament = await tournamentService.deleteTournament(id);
+        return tournament;
+    } catch (error) {
+        console.error('Error deleting tournament:', error);
+        throw error;
+    }
+}

@@ -53,3 +53,17 @@ export const getTournamentById = async (id) => {
         throw error;
     }
 }
+
+export const deleteTournament = async (id) => {
+    try {
+        const tournament = await Tournament.destroy({
+            where: {
+                id
+            }
+        });
+        return tournament;
+    } catch (error) {
+        console.error('Error deleting tournament:', error);
+        throw error;
+    }
+}
