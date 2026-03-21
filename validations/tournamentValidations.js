@@ -22,12 +22,12 @@ export const updateTournamentSchema = {
 
 export const deleteTournamentSchema = {
     params: z.object({
-        id: z.string().min(1, "Tournament id is required"),
+        id: z.coerce.number().int().min(1, "A valid Tournament id is required"),
     })
 };
 
 export const getTournamentByIdSchema = {
     params: z.object({
-        id: z.string().min(1, "Tournament id is required"),
+        id: z.coerce.number().int().min(1, "A valid Tournament id is required"),
     })
 };

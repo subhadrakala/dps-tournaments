@@ -1,7 +1,7 @@
 import express from "express";
 import * as tournamentController from "../controllers/tournament.js";
 import { validateRequest } from "../middleware/validation.js";
-import { createTournamentSchema } from "../validations/tournamentValidations.js";
+import { createTournamentSchema, updateTournamentSchema, getTournamentByIdSchema, deleteTournamentSchema } from "../validations/tournamentValidations.js";
 
 const router = express.Router();
 
@@ -25,7 +25,9 @@ router.route('/tournaments')
     });
 
 router.route('/tournaments/:id')
-    .put(async (req, res, next) => {
+    .put(
+        validateRequest(updateTournamentSchema),
+        async (req, res, next) => {
         try {
             console.log(req.body);
             const result = await tournamentController.updateTournament(req, res, next);
@@ -34,7 +36,9 @@ router.route('/tournaments/:id')
             next(error);
         }
     })
-    .get(async (req, res, next) => {
+    .get(
+        validateRequest(getTournamentByIdSchema),
+        async (req, res, next) => {
         try {
             const result = await tournamentController.getTournamentById(req, res, next);
             res.status(201).json(result);
@@ -42,7 +46,9 @@ router.route('/tournaments/:id')
             next(error);
         }
     })
-    .delete(async (req, res, next) => {
+    .delete(
+        validateRequest(deleteTournamentSchema),
+        async (req, res, next) => {
         try {
             const result = await tournamentController.deleteTournament(req, res, next);
             res.status(201).json(result);
