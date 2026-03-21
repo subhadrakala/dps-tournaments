@@ -18,7 +18,7 @@ router.route('/tournaments')
     .get(async (req, res, next) => {
         try {
             const result = await tournamentController.getAllTournaments(req, res, next);
-            res.status(201).json(result);
+            res.status(200).json(result);
         } catch (error) {
             next(error);
         }
@@ -29,9 +29,9 @@ router.route('/tournaments/:id')
         validateRequest(updateTournamentSchema),
         async (req, res, next) => {
         try {
-            console.log(req.body);
             const result = await tournamentController.updateTournament(req, res, next);
-            res.status(201).json(result);
+            if (!result) return res.status(404).json({ message: "Not found" });
+            res.status(200).json(result);
         } catch (error) {
             next(error);
         }
@@ -41,7 +41,8 @@ router.route('/tournaments/:id')
         async (req, res, next) => {
         try {
             const result = await tournamentController.getTournamentById(req, res, next);
-            res.status(201).json(result);
+            if (!result) return res.status(404).json({ message: "Not found" });
+            res.status(200).json(result);
         } catch (error) {
             next(error);
         }
@@ -51,7 +52,8 @@ router.route('/tournaments/:id')
         async (req, res, next) => {
         try {
             const result = await tournamentController.deleteTournament(req, res, next);
-            res.status(201).json(result);
+            if (!result) return res.status(404).json({ message: "Not found" });
+            res.status(200).json(result);
         } catch (error) {
             next(error);
         }

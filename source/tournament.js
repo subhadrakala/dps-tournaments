@@ -25,14 +25,15 @@ export const getAllTournaments = async () => {
 
 export const updateTournament = async (id, status) => {
     try {
-        const tournament = await Tournament.update({
+        const [affectedRows] = await Tournament.update({
             status
         }, {
             where: {
                 id
             }
         });
-        return tournament;
+        if (affectedRows === 0) return null;
+        return await Tournament.findOne({ where: { id } });
     } catch (error) {
         console.error('Error updating tournament status:', error);
         throw error;
@@ -56,7 +57,10 @@ export const getTournamentById = async (id) => {
 
 export const deleteTournament = async (id) => {
     try {
-        const tournament = await Tournament.destroy({
+        const tournament = await Tournament.findOne({ where: { id } });
+        if (!tournament) return null;
+        
+        await Tournament.destroy({
             where: {
                 id
             }

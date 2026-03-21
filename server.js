@@ -7,14 +7,26 @@ const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
 app.use(tournamentRouter);
+const isTest = process.env.NODE_ENV === 'test';
 
-try {
-    await sequelize.sync();
-    console.log('Successfully synced db');
-} catch (error) {
-    console.error('Error syncing database:', error);
-
+export const start = async () => {
+    try {
+        await sequelize.sync();
+        console.log('Successfully synced db');
+        app.listen(PORT, () => {
+            console.log(`Example app listening on port ${PORT}`)
+        });
+    }
+    catch (error) {
+        console.error('Error syncing database or starting the server', error);
+        if (!isTest) {
+            process.exit(1);
+        }
+    }
 }
-app.listen(PORT, () => {
-    console.log(`Example app listening on port ${PORT}`)
-});
+
+if (!isTest) {
+    start();
+}   
+
+export default app;

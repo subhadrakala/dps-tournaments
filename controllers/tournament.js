@@ -45,17 +45,7 @@ export const getTournamentById = async (req, res, next) => {
     try {
         const id = req.params.id;
         const tournament = await tournamentService.getTournamentById(id);
-
-        if (!tournament) {
-            res.status(404).json({
-                message: 'Tournament not found'
-            });
-        
-        }
-        else {
-            res.status(200).json(tournament);
-        }
-        
+        return tournament;
     } catch (error) {
         console.error('Error fetching tournament by id:', error);
         throw error;
