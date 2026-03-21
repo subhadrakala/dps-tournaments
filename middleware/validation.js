@@ -5,7 +5,7 @@ export const validateRequest = (schema) => async (req, res, next) => {
         if (schema.query) req.query = await schema.query.parseAsync(req.query);
         next();
     } catch (error) {
-        console.error('Error validating request:', error);
+        console.error('Error validating request:', JSON.parse(error.message));
         return res.status(400).json({ error: JSON.parse(error.message) });
     }
 };
