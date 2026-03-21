@@ -1,0 +1,23 @@
+{
+  "name": "dps-tournaments",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Service to manage round-robin sports tournaments",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/subhadrakala/dps-tournaments.git"
+  },
+  "author": "ksubhadra",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/subhadrakala/dps-tournaments/issues"
+  },
+  "homepage": "https://github.com/subhadrakala/dps-tournaments#readme",
+  "dependencies": {
+    "express": "^5.2.1"
+  }
+}
