@@ -24,7 +24,7 @@ export const getAllPlayers = async () => {
 
 export const getPlayerById = async (id) => {
     try {
-        const player = await Player.findAll({ where: { id } });
+        const player = await Player.findOne({ where: { id } });
         return player;
     } catch (error) {
         console.error('Error fetching player by id:', error);
@@ -33,7 +33,7 @@ export const getPlayerById = async (id) => {
 }
 export const deletePlayer = async (id) => {
     try {
-        const player = await Player.findAll({ where: { id } });
+        const player = await Player.findOne({ where: { id } });
         if (!player) return null;
         await Player.destroy({ where: { id } });
         return player;

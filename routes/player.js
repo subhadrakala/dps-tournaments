@@ -21,6 +21,7 @@ router.route('/players')
         async (req, res, next) => {
             try {
                 const result = await getAllPlayers(req, res, next);
+                if (!result) return res.status(404).json({ message: "Not players found" });
                 res.status(200).json(result);
             } catch (error) {
                 next(error);
@@ -35,6 +36,7 @@ router.route('/players/:id')
         async (req, res, next) => {
             try {
                 const result = await getPlayerById(req, res, next);
+                if (!result) return res.status(404).json({ message: "Not found" });
                 res.status(200).json(result);
             } catch (error) {
                 next(error);
@@ -46,6 +48,7 @@ router.route('/players/:id')
         async (req, res, next) => {
             try {
                 const result = await deletePlayer(req, res, next);
+                if (!result) return res.status(404).json({ message: "Not found" });
                 res.status(200).json(result);
             } catch (error) {
                 next(error);

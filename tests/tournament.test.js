@@ -1,14 +1,17 @@
+import { jest } from '@jest/globals';
 import request from 'supertest';
 import app, { start } from '../server.js';
 import sequelize from '../common/database.js';
 
 beforeAll(async () => {
     process.env.NODE_ENV = 'test';
+    jest.spyOn(console, 'error').mockImplementation(() => {});
     sequelize.options.storage = ':memory:';
     await start();
 });
 
 afterAll(async () => {
+    console.error.mockRestore();
     await sequelize.drop();
     await sequelize.close();
 });
