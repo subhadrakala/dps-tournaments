@@ -14,3 +14,13 @@ export const createTournament = async (req, res, next) => {
     }
 }
 
+export const getAllTournaments = async (req, res, next) => {
+    try {
+        const tournaments = await tournamentService.getAllTournaments();
+        return tournaments;
+
+    } catch (error) {
+        console.error('Error fetching tournaments:', error);
+        throw error;
+    }
+}

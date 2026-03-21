@@ -13,3 +13,12 @@ export const createTournament = async (name, status) => {
     }
 }
 
+export const getAllTournaments = async () => {
+    try {
+        const tournaments = await Tournament.findAll();
+        return tournaments;
+    } catch (error) {
+        console.error('Error fetching tournaments:', error);
+        throw error;
+    }
+}
