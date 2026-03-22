@@ -17,6 +17,47 @@ sqlite3 database is used for the database. The storage file is database.sqlite. 
 
 zod is used for the request and response validations
 
+### Entity Relationship Diagram
+
+```mermaid
+erDiagram
+    Tournament {
+        INTEGER id PK
+        STRING name
+        ENUM status "planning | started | finished"
+    }
+
+    Player {
+        INTEGER id PK
+        STRING name
+    }
+
+    TournamentPlayer {
+        INTEGER id PK
+        INTEGER tournamentId FK
+        INTEGER playerId FK
+        INTEGER totalScore
+        INTEGER totalWins
+        INTEGER totalLosses
+        INTEGER totalDraws
+    }
+
+    Game {
+        INTEGER id PK
+        INTEGER tournamentId FK
+        INTEGER player1Id FK
+        INTEGER player2Id FK
+        INTEGER score1
+        INTEGER score2
+    }
+
+    Tournament ||--o{ TournamentPlayer : "has players"
+    Player ||--o{ TournamentPlayer : "participates in"
+    Tournament ||--o{ Game : "has games"
+    Player ||--o{ Game : "plays as player1"
+    Player ||--o{ Game : "plays as player2"
+```
+
 ## Setup
 
 npm install
