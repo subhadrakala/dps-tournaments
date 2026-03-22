@@ -21,10 +21,14 @@ export const getAllTournamentsSchema = {
 
 export const createTournamentSchema = {
     body: z.object({
-        name: z.string().min(1, "Tournament name is required"),
-        status: z.enum(["planning", "started", "finished"], {
-            invalid_type_error: "Invalid status",
-        }),
+        name: z.preprocess(
+            (val) => val ?? "",
+            z.string().min(1, "Tournament name is required")
+        ),
+        status: z.preprocess(
+            (val) => val ?? "",
+            z.enum(["planning", "started", "finished"], "Status is required with values planning, started, or finished")
+        ),
     }),
     response: tournamentResponseSchema
 };
@@ -34,9 +38,10 @@ export const updateTournamentSchema = {
         id: z.coerce.number().int().positive("A valid Tournament id is required"),
     }),
     body: z.object({
-        status: z.enum(["planning", "started", "finished"], {
-            invalid_type_error: "Invalid status",
-        }),
+        status: z.preprocess(
+            (val) => val ?? "",
+            z.enum(["planning", "started", "finished"], "Status is required with values planning, started, or finished")
+        ),
     }),
     response: tournamentResponseSchema
 };
@@ -71,7 +76,10 @@ export const addPlayerToTournamentSchema = {
         id: z.coerce.number().int().positive("A valid Tournament id is required"),
     }),
     body: z.object({
-        playerId: z.coerce.number().int().positive("A valid Player id is required"),
+        playerId: z.preprocess(
+            (val) => val ?? "",
+            z.coerce.number().int().positive("A valid Player id is required")
+        ),
     }),
     response: tournamentPlayerResponseSchema
 };

@@ -17,7 +17,7 @@ export const createTournament = async (name, status) => {
 export const getAllTournaments = async () => {
     try {
         const tournaments = await Tournament.findAll({
-            attributes: {exclude: ['createdAt', 'updatedAt']}
+            attributes: { exclude: ['createdAt', 'updatedAt'] }
         });
         return tournaments;
     } catch (error) {
@@ -33,12 +33,12 @@ export const updateTournament = async (id, status) => {
         }, {
             where: {
                 id
-            }   
+            }
         });
         if (affectedRows === 0) return null;
         return await Tournament.findOne({
             where: { id },
-            attributes: {exclude: ['createdAt', 'updatedAt']}
+            attributes: { exclude: ['createdAt', 'updatedAt'] }
         });
     } catch (error) {
         console.error('Error updating tournament status:', error);
@@ -52,7 +52,7 @@ export const getTournamentById = async (id) => {
             where: {
                 id
             },
-            attributes: {exclude: ['createdAt', 'updatedAt']}
+            attributes: { exclude: ['createdAt', 'updatedAt'] }
         });
 
         return tournament;
@@ -66,10 +66,10 @@ export const deleteTournament = async (id) => {
     try {
         const tournament = await Tournament.findOne({
             where: { id },
-            attributes: {exclude: ['createdAt', 'updatedAt']}
+            attributes: { exclude: ['createdAt', 'updatedAt'] }
         });
         if (!tournament) return null;
-        
+
         await Tournament.destroy({
             where: {
                 id
@@ -99,7 +99,7 @@ export const getPlayersCountForTournament = async (tournamentId) => {
     try {
         const playersCount = await TournamentPlayer.count({
             where: { tournamentId },
-            attributes: {exclude: ['createdAt', 'updatedAt']}
+            attributes: { exclude: ['createdAt', 'updatedAt'] }
         });
         return playersCount;
     } catch (error) {
@@ -112,7 +112,13 @@ export const getAllPlayersForTournament = async (tournamentId) => {
     try {
         const tournamentPlayers = await TournamentPlayer.findAll({
             where: { tournamentId },
-            attributes: {exclude: ['createdAt', 'updatedAt']}
+            attributes: { exclude: ['createdAt', 'updatedAt'] },
+            order: [
+                ['totalScore', 'DESC'],
+                ['totalWins', 'DESC'],
+                ['totalDraws', 'ASC'],
+                ['totalLosses', 'ASC'],
+            ]
         });
         return tournamentPlayers;
     } catch (error) {
@@ -125,7 +131,7 @@ export const getPlayerForTournament = async (tournamentId, playerId) => {
     try {
         const tournamentPlayers = await TournamentPlayer.findOne({
             where: { tournamentId, playerId },
-            attributes: {exclude: ['createdAt', 'updatedAt']}
+            attributes: { exclude: ['createdAt', 'updatedAt'] }
         });
         return tournamentPlayers;
     } catch (error) {
@@ -146,7 +152,7 @@ export const updateGameDataInTournamentForPlayer = async (tournamentId, playerId
                 tournamentId,
                 playerId
             },
-            attributes: {exclude: ['createdAt', 'updatedAt']}
+            attributes: { exclude: ['createdAt', 'updatedAt'] }
         });
         return tournamentPlayer;
     } catch (error) {
@@ -161,7 +167,7 @@ export const getTournamentInfo = async (tournamentId) => {
             where: {
                 tournamentId
             },
-            attributes: {exclude: ['createdAt', 'updatedAt']},
+            attributes: { exclude: ['createdAt', 'updatedAt'] },
             order: [
                 ['totalScore', 'DESC'],
                 ['totalWins', 'DESC'],

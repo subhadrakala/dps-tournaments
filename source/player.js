@@ -15,7 +15,7 @@ export const createPlayer = async (name) => {
 export const getAllPlayers = async () => {
     try {
         const players = await Player.findAll({
-            attributes: {exclude: ['createdAt', 'updatedAt']}
+            attributes: { exclude: ['createdAt', 'updatedAt']}
         });
         return players;
     } catch (error) {
@@ -28,7 +28,7 @@ export const getPlayerById = async (id) => {
     try {
         const player = await Player.findOne({
             where: { id },
-            attributes: {exclude: ['createdAt', 'updatedAt']}
+            attributes: { exclude: ['createdAt', 'updatedAt']}
         });
         return player;
     } catch (error) {
@@ -40,7 +40,7 @@ export const deletePlayer = async (id) => {
     try {
         const player = await Player.findOne({
             where: { id },
-            attributes: {exclude: ['createdAt', 'updatedAt']}
+            attributes: { exclude: ['createdAt', 'updatedAt']}
         });
         if (!player) return null;
         await Player.destroy({ where: { id } });

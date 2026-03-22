@@ -7,7 +7,10 @@ const playerResponseSchema = z.object({
 
 export const createPlayerSchema = {
     body: z.object({
-        name: z.string().min(1, "Player name is required"),
+        name: z.preprocess(
+            (val) => val ?? "",
+            z.string().min(1, "Player name is required")
+        ),
     }),
     response: playerResponseSchema
 };

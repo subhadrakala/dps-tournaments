@@ -48,6 +48,30 @@ const router = express.Router();
  *                   description: Status of the tournament
  *       400:
  *         description: Invalid request
+ * 
+ *   get:
+ *     summary: Get all tournaments
+ *     description: Retrieves all tournaments.
+ *     responses:
+ *       200:
+ *         description: Tournaments retrieved successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   id: 
+ *                     type: integer
+ *                     description: Tournament ID
+ *                   name: 
+ *                     type: string
+ *                     description: Name of the tournament
+ *                   status: 
+ *                     type: enum
+ *                     enum: ["planning", "started", "finished"]
+ *                     description: Status of the tournament
  */
 router.route('/tournaments')
     .post(
@@ -205,7 +229,7 @@ router.route('/tournaments/:id')
         async (req, res, next) => {
             try {
                 const result = await tournamentController.updateTournament(req, res, next);
-                if (!result) return res.status(404).json({ message: "Not found" });
+                if (!result) return res.status(404).json({ message: "Tournament not found" });
                 res.status(201).json(result);
             } catch (error) {
                 next(error);
@@ -216,7 +240,7 @@ router.route('/tournaments/:id')
         async (req, res, next) => {
             try {
                 const result = await tournamentController.getTournamentInfo(req, res, next);
-                if (!result) return res.status(404).json({ message: "Not found" });
+                if (!result) return res.status(404).json({ message: "Tournament not found" });
                 res.status(200).json(result);
             } catch (error) {
                 next(error);
@@ -227,7 +251,7 @@ router.route('/tournaments/:id')
         async (req, res, next) => {
             try {
                 const result = await tournamentController.deleteTournament(req, res, next);
-                if (!result) return res.status(404).json({ message: "Not found" });
+                if (!result) return res.status(404).json({ message: "Tournament not found" });
                 res.status(201).json(result);
             } catch (error) {
                 next(error);
@@ -273,11 +297,19 @@ router.route('/tournaments/:id')
  *                 name: 
  *                   type: string
  *                   description: Name of the tournament
- *                 status: 
- *                   type: enum
- *                   enum: ["planning", "started", "finished"]
- *                   description: Status of the tournament
- *       404:
+ *                 totalScores: 
+ *                   type: integer
+ *                   description: Total scores of the tournament
+ *                 totalWins: 
+ *                   type: integer
+ *                   description: Total wins of the tournament
+ *                 totalLosses: 
+ *                   type: integer
+ *                   description: Total losses of the tournament
+ *                 totalDraws: 
+ *                   type: integer
+ *                   description: Total draws of the tournament
+ *        404:
  *         description: Tournament not found
  * 
  *   get:
@@ -296,27 +328,17 @@ router.route('/tournaments/:id')
  *         content:
  *           application/json:
  *             schema:
- *               type: object
- *               properties:
- *                 tournamentName: 
- *                   type: string
- *                   description: Name of the tournament
- *                 tournamentStatus: 
- *                   type: enum
- *                   enum: ["planning", "started", "finished"]
- *                   description: Status of the tournament
- *                 players: 
- *                   type: array
- *                   items:
+ *               type: array
+ *               items:
  *                     type: object
  *                     properties:
  *                       playerId: 
  *                         type: integer
  *                         description: Player ID
- *                       playerName: 
- *                         type: string
- *                         description: Name of the player
- *                       score: 
+ *                       tournamentId: 
+ *                         type: integer
+ *                         description: Tournament ID
+ *                       totalScore: 
  *                         type: integer
  *                         description: Score of the player
  *                       totalWins: 
@@ -349,6 +371,20 @@ router.route('/tournaments/:id/players')
             try {
                 const result = await tournamentController.getAllPlayersForTournament(req, res, next);
                 if (!result) return res.status(404).json({ message: "Not found" });
+                res.status(200).json(result);
+            } catch (error) {
+                next(error);
+            }
+        }
+    )
+
+router.route('/tournaments/:id/leaderboard')
+    .get(
+        validateRequest(tournamentValidations.getTournamentByIdSchema),
+        async (req, res, next) => {
+            try {
+                const result = await tournamentController.getTournamentInfo(req, res, next);
+                if (!result) return res.status(404).json({ message: "Tournament not found" });
                 res.status(200).json(result);
             } catch (error) {
                 next(error);

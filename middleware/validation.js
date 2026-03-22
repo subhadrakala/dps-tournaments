@@ -1,3 +1,5 @@
+import { ZodError } from "zod";
+
 export const validateRequest = (schema) => async (req, res, next) => {
     try {
         if (schema.params) req.params = await schema.params.parseAsync(req.params);
@@ -23,14 +25,12 @@ export const validateRequest = (schema) => async (req, res, next) => {
 
         next();
     } catch (error) {
-        let errorMessage = error.message;
-        try {
-            const parsedError = JSON.parse(error.message);
-            if (Array.isArray(parsedError) && parsedError[0]?.message) {
-                errorMessage = parsedError[0].message;
-            }
-        } catch (e) {
-            // fallback to original message if not valid JSON
+        let errorMessage;
+
+        if (error instanceof ZodError) {
+            errorMessage = error.issues[0].message;
+        } else {
+            errorMessage = error.message;
         }
         
         console.error('Error validating request:', errorMessage);
