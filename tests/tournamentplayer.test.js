@@ -52,13 +52,24 @@ describe('Tournament Player', () => {
     });
 
     test('should fail to add player to tournament with duplicate player id', async () => {
-        const players = await request(app).get('/tournaments/1/players');
-        const response = await request(app)
-            .post('/tournaments/1/players')
+        const tournament = await request(app).post('/tournaments').send({
+            name: 'Tournament 1',
+            status: 'planning'
+        });
+        const player = await request(app).post('/players').send({
+            name: 'Player 1'
+        });
+        const response1 = await request(app)
+            .post(`/tournaments/${tournament.body.id}/players`)
             .send({
-                playerId: players.body[0].id,
+                playerId: player.body.id,
             });
-        expect(response.statusCode).toBe(400);      
-    });
 
+        const response2 = await request(app)
+            .post(`/tournaments/${tournament.body.id}/players`)
+            .send({
+                playerId: player.body.id,
+            });
+        expect(response2.statusCode).toBe(400);      
+    });
 });

@@ -55,9 +55,12 @@ describe('Player API', () => {
         const response = await request(app).get('/players/100');
         expect(response.statusCode).toBe(404);
     });
-
+    
     it('should delete a player', async () => {
-        const response = await request(app).delete('/players/1');
+        const player = await request(app).post('/players').send({
+            name: 'Test Player'
+        });
+        const response = await request(app).delete(`/players/${player.body.id}`);
         expect(response.statusCode).toBe(200);
         expect(response.body).toHaveProperty('id');
         expect(response.body).toHaveProperty('name');

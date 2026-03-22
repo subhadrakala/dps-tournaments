@@ -58,10 +58,14 @@ describe('Testing Tournament APIs', () => {
     });
 
     test('should get a tournament by id', async () => {
-        const response = await request(app).get('/tournaments/1');
+        const tournament = await request(app).post('/tournaments').send({
+            name: 'Tournament 1',
+            status: 'started'
+        });
+        const response = await request(app).get(`/tournaments/${tournament.body.id}`);
         expect(response.statusCode).toBe(200);
         expect(response.body).toHaveProperty('tournamentName', 'Tournament 1');
-        expect(response.body).toHaveProperty('tournamentStatus', 'planning');
+        expect(response.body).toHaveProperty('tournamentStatus', 'started');
     });
 
     test('should fail to get a tournament by invalid id', async () => {
@@ -75,8 +79,12 @@ describe('Testing Tournament APIs', () => {
     });
 
     test('should update a tournament', async () => {
+        const tournament = await request(app).post('/tournaments').send({
+            name: 'Tournament 1',
+            status: 'planning'
+        });
         const response = await request(app)
-            .put('/tournaments/1')
+            .put(`/tournaments/${tournament.body.id}`)
             .send({
                 status: 'started'
             });
@@ -114,11 +122,15 @@ describe('Testing Tournament APIs', () => {
     });
 
     test('should delete a tournament', async () => {
-        const response = await request(app).delete('/tournaments/1');
+        const tournament = await request(app).post('/tournaments').send({
+            name: 'Tournament 1',
+            status: 'planning'
+        });
+        const response = await request(app).delete(`/tournaments/${tournament.body.id}`);
         expect(response.statusCode).toBe(201);
         expect(response.body).toHaveProperty('id');
         expect(response.body).toHaveProperty('name', 'Tournament 1');
-        expect(response.body).toHaveProperty('status', 'started');
+        expect(response.body).toHaveProperty('status', 'planning');
     });
 
     test('should fail to delete a tournament with invalid id', async () => {
