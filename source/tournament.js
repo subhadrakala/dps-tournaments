@@ -143,7 +143,10 @@ export const getTournamentInfo = async (tournamentId) => {
                 tournamentId
             },
             order: [
-                ['totalScore', 'DESC']
+                ['totalScore', 'DESC'],
+                ['totalWins', 'DESC'],
+                ['totalDraws', 'ASC'],
+                ['totalLosses', 'ASC'],
             ]
         });
         return tournamentPlayers;

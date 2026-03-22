@@ -11,7 +11,9 @@ router.route('/games')
         async (req, res, next) => {
             try {
                 const result = await gameController.createGame(req, res, next);
-                res.status(201).json(result);
+                if (!res.headersSent) {
+                    res.status(201).json(result);
+                }
             } catch (error) {
                 next(error);
             }

@@ -3,16 +3,16 @@ import sequelize from "./common/database.js";
 import tournamentRouter from "./routes/tournament.js";
 import playerRouter from "./routes/player.js";
 import gameRouter from "./routes/games.js";
+import { PORT, TEST } from "./common/constants.js";
 
 const app = express();
-const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
 app.use(tournamentRouter)
 app.use(playerRouter);
 app.use(gameRouter);
 
-const isTest = process.env.NODE_ENV === 'test';
+const isTest = process.env.NODE_ENV === TEST;
 
 export const start = async () => {
     try {

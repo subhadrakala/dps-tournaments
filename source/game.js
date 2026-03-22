@@ -16,3 +16,20 @@ export const createGame = async (player1Id, player2Id, tournamentId, player1Scor
         throw error;
     }
 }
+
+export const getGameByPlayerIdTournamentId = async (tournamentId, player1Id, player2Id) => {
+    try {
+        const game = await Game.findOne({
+            where: {
+                tournamentId,
+                player1Id,
+                player2Id
+            }
+        });
+        return game;
+    } catch (error) {
+        console.error('Error fetching game by player id and tournament id:', error);
+        throw error;
+    }
+}
+                    

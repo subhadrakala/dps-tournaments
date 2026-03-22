@@ -40,7 +40,7 @@ router.route('/tournaments/:id')
         validateRequest(tournamentValidations.getTournamentByIdSchema),
         async (req, res, next) => {
             try {
-                const result = await tournamentController.getTournamentById(req, res, next);
+                const result = await tournamentController.getTournamentInfo(req, res, next);
                 if (!result) return res.status(404).json({ message: "Not found" });
                 res.status(200).json(result);
             } catch (error) {
@@ -80,20 +80,6 @@ router.route('/tournaments/:id/players')
                 res.status(200).json(result);
             } catch (error) {
                 next(error);
-            }
-        }
-    )
-
-router.route('tournaments/:id/info')
-    .get(
-        validateRequest(tournamentValidations.getTournamentPlayerSchema),
-        async (req, res, next) => {
-            try {
-                const result = await tournamentController.getTournamentInfo(req, res, next);
-                if (!result) return res.status(404).json({ message: "Not found" });
-                res.status(200).json(result);
-            } catch (error) {
-                next(error);xx
             }
         }
     )

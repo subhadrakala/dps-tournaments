@@ -27,6 +27,9 @@ export const createGame = async (req, res, next) => {
         const player2DataInTournament = await tournamentService.getPlayerForTournament(tournamentId, player2Id);
         if (player2DataInTournament == null) return res.status(400).json({ message: "Player2 not added to tournament" });
 
+        const gamePlayed = await gameService.getGameByPlayerIdTournamentId(tournamentId, player1Id, player2Id);
+        if (gamePlayed) return res.status(400).json({ message: "Player1 and player2 has already played against each other in this tournament" });
+      
         const game = await gameService.createGame(player1Id, player2Id, tournamentId, player1Score, player2Score);
 
         if (player1Score > player2Score) {

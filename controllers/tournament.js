@@ -30,11 +30,7 @@ export const getAllTournaments = async (req, res, next) => {
 export const updateTournament = async (req, res, next) => {
     try {
         const id = req.params.id;
-
-        // Note: need to change to generic update later
         const status = req.body.status;
-
-
         const tournament = await tournamentService.updateTournament(id, status);
         return tournament;
     } catch (error) {
@@ -77,7 +73,8 @@ export const addPlayerToTournament = async (req, res, next) => {
         if (!player) return res.status(404).json({ message: "Player not found" });
 
         const currentTournamentPlayers = await tournamentService.getPlayersCountForTournament(tournamentId);
-        if (currentTournamentPlayers.length >= MAX_PLAYERS_PER_TOURNAMENT) {
+        console.log(currentTournamentPlayers);
+        if (currentTournamentPlayers >= MAX_PLAYERS_PER_TOURNAMENT) {
             return res.status(400).json({ message: "Tournament is full" });
         }
 
@@ -112,13 +109,34 @@ export const getAllPlayersForTournament = async (req, res, next) => {
 export const getTournamentInfo = async (req, res, next) => {
     try {
         const tournamentId = req.params.id;
-
         const tournamentDetails = await tournamentService.getTournamentById(tournamentId);
         if (!tournamentDetails) return res.status(404).json({ message: "Tournament not found" });
 
         const tournamentInfo = await tournamentService.getTournamentInfo(tournamentId);
-        tournamentInfo.tournamentDetails = tournamentDetails;
-        return tournamentInfo;
+
+        const tournamentInfoWithDetails = {
+            tournamentName: tournamentDetails.name,
+            tournamentStatus: tournamentDetails.status,
+        };
+        let players = [];
+
+        for (const player of tournamentInfo) {
+            let playerName = await playerService.getPlayerById(player.playerId);
+            console.log("playerName: ", playerName.dataValues.name);
+            let playerinfo = {
+                playerId: player.playerId,
+                playerName: playerName.dataValues.name,
+                score: player.totalScore,
+                totalWins: player.totalWins,
+                totalLosses: player.totalLosses,
+                totalDraws: player.totalDraws,
+            }
+            console.log("playerinfo: ", playerinfo);
+            players.push(playerinfo);
+        }
+
+        tournamentInfoWithDetails.players = players;
+        return tournamentInfoWithDetails;
     } catch (error) {
         console.error('Error fetching tournament info:', error);
         throw error;
