@@ -3,6 +3,24 @@ export const validateRequest = (schema) => async (req, res, next) => {
         if (schema.params) req.params = await schema.params.parseAsync(req.params);
         if (schema.body) req.body = await schema.body.parseAsync(req.body);
         if (schema.query) req.query = await schema.query.parseAsync(req.query);
+
+        if (schema.response) {
+            const originalJson = res.json;
+            res.json = function (body) {
+                if (this.statusCode >= 200 && this.statusCode < 300) {
+                    try {
+                        const validatedBody = schema.response.parse(body);
+                        return originalJson.call(this, validatedBody);
+                    } catch (error) {
+                        const errorMessage = error.errors ? error.errors[0].message : error.message;
+                        console.error('Response validation error:', errorMessage);
+                        return originalJson.call(this.status(500), { error: `Response Validation Failed: ${errorMessage}` });
+                    }
+                }
+                return originalJson.call(this, body);
+            };
+        }
+
         next();
     } catch (error) {
         let errorMessage = error.message;

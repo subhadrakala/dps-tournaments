@@ -5,6 +5,69 @@ import * as gameValidations from '../validations/gameValidations.js';
 
 const router = express.Router();
 
+/**
+ * @swagger
+ * /games:
+ *   post:
+ *     summary: Create a new game
+ *     description: Creates a new game with the given details.
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - tournamentId
+ *               - player1Id
+ *               - player2Id
+ *               - player1Score
+ *               - player2Score
+ *             properties:
+ *               tournamentId: 
+ *                 type: integer
+ *                 description: Tournament ID
+ *               player1Id: 
+ *                 type: integer
+ *                 description: Player 1 ID
+ *               player2Id: 
+ *                 type: integer
+ *                 description: Player 2 ID
+ *               player1Score: 
+ *                 type: integer
+ *                 description: Player 1 Score
+ *               player2Score: 
+ *                 type: integer
+ *                 description: Player 2 Score
+ *     responses:
+ *       201:
+ *         description: Game created successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 id: 
+ *                   type: integer
+ *                   description: Game ID
+ *                 tournamentId: 
+ *                   type: integer
+ *                   description: Tournament ID
+ *                 player1Id: 
+ *                   type: integer
+ *                   description: Player 1 ID
+ *                 player2Id: 
+ *                   type: integer
+ *                   description: Player 2 ID
+ *                 score1: 
+ *                   type: integer
+ *                   description: Player 1 Score
+ *                 score2: 
+ *                   type: integer
+ *                   description: Player 2 Score
+ *       400:
+ *         description: Invalid request
+ */
 router.route('/games')
     .post(
         validateRequest(gameValidations.createGameSchema),

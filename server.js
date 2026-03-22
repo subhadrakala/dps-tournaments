@@ -4,6 +4,8 @@ import tournamentRouter from "./routes/tournament.js";
 import playerRouter from "./routes/player.js";
 import gameRouter from "./routes/games.js";
 import { PORT, TEST } from "./common/constants.js";
+import swaggerJsdoc from 'swagger-jsdoc';
+import swaggerUi from 'swagger-ui-express';
 
 const app = express();
 
@@ -13,6 +15,26 @@ app.use(playerRouter);
 app.use(gameRouter);
 
 const isTest = process.env.NODE_ENV === TEST;
+
+const swaggerOptions = {
+  definition: {
+    openapi: '3.0.0',
+    info: {
+      title: 'Tournament APIs',
+      version: '1.0.0',
+      description: 'Interactive API documentation for the Tournament, player and games APIs.'
+    },
+    servers: [
+      {
+        url: `http://localhost:${PORT}`
+      }
+    ]
+  },
+  apis: ['./routes/*.js']
+};
+
+const swaggerDocs = swaggerJsdoc(swaggerOptions);
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 export const start = async () => {
     try {
