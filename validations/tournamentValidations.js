@@ -15,10 +15,30 @@ const tournamentPlayerResponseSchema = z.object({
     totalDraws: z.number().int().nonnegative()
 });
 
+/*
+* getAllTournamentsSchema
+* 
+* Validates the retrieval of all tournaments.
+* 
+* @param {object} response - The response
+* @returns {object} - The validated response
+*/
 export const getAllTournamentsSchema = {
     response: z.array(tournamentResponseSchema)
 };
 
+/*
+* createTournamentSchema
+* 
+* Validates the creation of a tournament.
+* 
+* Conditions:
+* 1. Name must be a non-empty string
+* 2. Status must be one of planning, started, or finished
+* 
+* @param {object} body - The body of the request
+* @returns {object} - The validated body
+*/
 export const createTournamentSchema = {
     body: z.object({
         name: z.preprocess(
@@ -33,6 +53,19 @@ export const createTournamentSchema = {
     response: tournamentResponseSchema
 };
 
+/*
+* updateTournamentSchema
+* 
+* Validates the update of a tournament.
+* 
+* Conditions:
+* 1. ID must be a positive integer
+* 2. Status must be one of planning, started, or finished
+* 
+* @param {object} params - The parameters
+* @param {object} body - The body of the request
+* @returns {object} - The validated parameters and body
+*/
 export const updateTournamentSchema = {
     params: z.object({
         id: z.coerce.number().int().positive("A valid Tournament id is required"),
@@ -46,6 +79,17 @@ export const updateTournamentSchema = {
     response: tournamentResponseSchema
 };
 
+/*
+* deleteTournamentSchema
+* 
+* Validates the deletion of a tournament by its ID.
+* 
+* Conditions:
+* 1. ID must be a positive integer
+* 
+* @param {object} params - The parameters
+* @returns {object} - The validated parameters
+*/
 export const deleteTournamentSchema = {
     params: z.object({
         id: z.coerce.number().int().positive("A valid Tournament id is required"),
@@ -53,6 +97,17 @@ export const deleteTournamentSchema = {
     response: tournamentResponseSchema
 };
 
+/*
+* getTournamentByIdSchema
+* 
+* Validates the retrieval of a tournament by its ID.
+* 
+* Conditions:
+* 1. ID must be a positive integer
+* 
+* @param {object} params - The parameters
+* @returns {object} - The validated parameters
+*/
 export const getTournamentByIdSchema = {
     params: z.object({
         id: z.coerce.number().int().positive("A valid Tournament id is required"),
@@ -71,6 +126,19 @@ export const getTournamentByIdSchema = {
     })
 };
 
+/*
+* addPlayerToTournamentSchema
+* 
+* Validates the addition of a player to a tournament.
+* 
+* Conditions:
+* 1. ID must be a positive integer
+* 2. Player id must be a positive integer
+* 
+* @param {object} params - The parameters
+* @param {object} body - The body of the request
+* @returns {object} - The validated parameters and body
+*/
 export const addPlayerToTournamentSchema = {
     params: z.object({
         id: z.coerce.number().int().positive("A valid Tournament id is required"),
@@ -84,6 +152,17 @@ export const addPlayerToTournamentSchema = {
     response: tournamentPlayerResponseSchema
 };
 
+/*
+* getTournamentPlayersSchema
+* 
+* Validates the retrieval of all players for a tournament.
+* 
+* Conditions:
+* 1. ID must be a positive integer
+* 
+* @param {object} params - The parameters
+* @returns {object} - The validated parameters
+*/
 export const getTournamentPlayersSchema = {
     params: z.object({
         id: z.coerce.number().int().positive("A valid Tournament id is required"),

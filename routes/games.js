@@ -39,7 +39,7 @@ const router = express.Router();
  *               player1Score: 
  *                 type: integer
  *                 description: Player 1 Score
- *                 example: 0
+ *                 example: 1
  *               player2Score: 
  *                 type: integer
  *                 description: Player 2 Score

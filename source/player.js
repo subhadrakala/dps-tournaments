@@ -1,5 +1,13 @@
 import Player from "../models/players.model.js";
 
+/*
+* createPlayer
+* 
+* Creates a new player.
+* 
+* @param {string} name - The name of the player
+* @returns {object} - The created player
+*/
 export const createPlayer = async (name) => {
     try {
         const player = await Player.create({
@@ -12,6 +20,13 @@ export const createPlayer = async (name) => {
     }
 }
 
+/*
+* getAllPlayers
+* 
+* Gets all players.
+* 
+* @returns {object} - All players
+*/
 export const getAllPlayers = async () => {
     try {
         const players = await Player.findAll({
@@ -24,6 +39,14 @@ export const getAllPlayers = async () => {
     }
 }
 
+/*
+* getPlayerById
+* 
+* Gets a player by its ID.
+* 
+* @param {string} id - The ID of the player
+* @returns {object} - The player
+*/
 export const getPlayerById = async (id) => {
     try {
         const player = await Player.findOne({
@@ -36,6 +59,15 @@ export const getPlayerById = async (id) => {
         throw error;
     }
 }
+
+/*
+* deletePlayer
+* 
+* Deletes a player by its ID.
+* 
+* @param {string} id - The ID of the player
+* @returns {object} - The deleted player
+*/
 export const deletePlayer = async (id) => {
     try {
         const player = await Player.findOne({

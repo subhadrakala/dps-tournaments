@@ -176,7 +176,7 @@ router.route('/players/:id')
             } catch (error) {
                 next(error);
             }
-        }
+        }       
     );
 
 export default router;

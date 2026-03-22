@@ -1,3 +1,4 @@
 export const MAX_PLAYERS_PER_TOURNAMENT = 5;
 export const PORT = 3000;
 export const TEST = 'test';
+export const MAX_GAMES_PER_TOURNAMENT = MAX_PLAYERS_PER_TOURNAMENT * (MAX_PLAYERS_PER_TOURNAMENT - 1) / 2;

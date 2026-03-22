@@ -19,23 +19,7 @@ zod is used for the request and response validations
 
 ## Setup
 
-npm init
-
-npm install express
-
-npm install sqlite3
-
-npm install sequelize
-
-npm install zod
-
-npm install jest
-
-npm install supertest
-
-npm install swagger-ui-express
-
-npm install swagger-jsdoc
+npm install
 
 
 ## Running the server
@@ -67,11 +51,11 @@ The API documentaions can be found in the swagger UI.
 
     GET /tournaments - Get all tournaments
     POST /tournaments - Create a new tournament
-    GET /tournaments/:id - Get tournament by id along with all the players in the tournament
+    GET /tournaments/:id - Get tournament by id along with leaderboard
     PUT /tournaments/:id - Update tournament by id
     DELETE /tournaments/:id - Delete tournament by id
     GET /tournaments/:id/players - Get all players in a tournament
-    POST /tournaments/:id/players - Add a player to a tournament
+    GET /tournaments/:id/leaderboard - Get leaderboard of a tournament
 
 ### Games
     POST /games - Create a new game

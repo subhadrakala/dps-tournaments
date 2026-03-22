@@ -1,6 +1,12 @@
 import { DataTypes } from "sequelize";
 import sequelize from "../common/database.js";
 
+/*
+* Tournament model
+* 
+* Represents a tournament.
+*  Contains columns id, name, status
+*/
 const Tournament = sequelize.define('Tournament', {
     id: {
         type: DataTypes.INTEGER,

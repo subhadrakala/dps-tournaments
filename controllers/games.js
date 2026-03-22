@@ -1,7 +1,29 @@
 import * as gameService from "../source/game.js";
 import * as tournamentService from "../source/tournament.js";
 import * as playerService from "../source/player.js";
+import { MAX_GAMES_PER_TOURNAMENT } from "../common/constants.js";
 
+/*
+* createGame
+
+* Creates a game entry in the table and updates the tournamentplayers
+* table with the scores of the players. It also checks necessary
+* conditions before creating the game.
+*
+* Conditions:
+* 1. Tournament must exist
+* 2. Players must exist
+* 3. Tournament must be in started state
+* 4. Players must be added to tournament
+* 5. Players must not have played against each other in this tournament
+*
+* @param {string} player1Id - The ID of the first player
+* @param {string} player2Id - The ID of the second player
+* @param {string} tournamentId - The ID of the tournament
+* @param {number} player1Score - The score of the first player
+* @param {number} player2Score - The score of the second player
+* @returns {object} - The created game
+*/
 export const createGame = async (req, res, next) => {
     try {
         const player1Id = req.body.player1Id;
@@ -10,23 +32,29 @@ export const createGame = async (req, res, next) => {
         const player1Score = req.body.player1Score;
         const player2Score = req.body.player2Score; 
 
+        // Check if tournament exists
         const tournament = await tournamentService.getTournamentById(tournamentId);
         if (!tournament) return res.status(404).json({ message: "Tournament not found" });
 
+        // Check if players exist
         const player1 = await playerService.getPlayerById(player1Id);
         if (!player1) return res.status(404).json({ message: "Player1 not found" });
 
         const player2 = await playerService.getPlayerById(player2Id);
         if (!player2) return res.status(404).json({ message: "Player2 not found" });
 
+        // Check if tournament is in started state
         if(tournament.status !== 'started') return res.status(400).json({ message: "Tournament must be in progress (started) to create a game" });
 
+        // Check if player1 is already added to tournament
         const player1DataInTournament = await tournamentService.getPlayerForTournament(tournamentId, player1Id);
         if (player1DataInTournament == null) return res.status(400).json({ message: "Player1 not added to tournament" });
 
+        // Check if player2 is already added to tournament
         const player2DataInTournament = await tournamentService.getPlayerForTournament(tournamentId, player2Id);
         if (player2DataInTournament == null) return res.status(400).json({ message: "Player2 not added to tournament" });
 
+        // Check if player1 and player2 has already played against each other in this tournament
         const gamePlayed = await gameService.getGameByPlayerIdTournamentId(tournamentId, player1Id, player2Id);
         if (gamePlayed) return res.status(400).json({ message: "Player1 and player2 has already played against each other in this tournament" });
       
@@ -59,6 +87,12 @@ export const createGame = async (req, res, next) => {
 
             await tournamentService.updateGameDataInTournamentForPlayer(tournamentId, player1Id, newPlayer1Score, newPlayer1Wins, newPlayer1Losses, newPlayer1Draws);
             await tournamentService.updateGameDataInTournamentForPlayer(tournamentId, player2Id, newPlayer2Score, newPlayer2Wins, newPlayer2Losses, newPlayer2Draws);
+        }
+
+        // Update tournament status as finished if all games are played
+        const gamesCount = await gameService.countGamesByTournamentId(tournamentId);
+        if (gamesCount === MAX_GAMES_PER_TOURNAMENT) {
+            await tournamentService.updateTournament(tournamentId, 'finished');
         }
 
         return game;

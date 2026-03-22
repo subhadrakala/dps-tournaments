@@ -9,6 +9,21 @@ const gameResponseSchema = z.object({
     score2: z.number().int().nonnegative()
 });
 
+/*
+* createGameSchema
+* 
+* Validates the creation of a game.
+* 
+* Conditions:
+* 1. Player 1 id and Player 2 id cannot be the same
+* 2. Total score must be 2
+* 3. Player 1 id and Player 2 id must be positive integers
+* 4. Tournament id must be valid
+* 5. Player 1 score and Player 2 score must be non-negative integers
+* 
+* @param {object} body - The body of the request
+* @returns {object} - The validated body
+*/
 export const createGameSchema = {
     body: z.object({
         player1Id: z.preprocess(

@@ -1,5 +1,13 @@
 import { ZodError } from "zod";
 
+/*
+* validateRequest
+* 
+* Validates the request against the provided schema.
+* 
+* @param {object} schema - The schema to validate against
+* @returns {function} - The validation middleware
+*/
 export const validateRequest = (schema) => async (req, res, next) => {
     try {
         if (schema.params) req.params = await schema.params.parseAsync(req.params);
