@@ -7,8 +7,16 @@ const router = express.Router();
 
 /**
  * @swagger
+ * tags:
+ *   - name: Players
+ *     description: Player management
+ */
+
+/**
+ * @swagger
  * /players:
  *   post:
+ *     tags: [Players]
  *     summary: Create a new player
  *     description: Creates a new player with the given details.
  *     requestBody:
@@ -43,6 +51,7 @@ const router = express.Router();
  *       400:
  *         description: Invalid request
  *   get:   
+ *     tags: [Players]
  *     summary: Get all players
  *     description: Retrieves all players.
  *     responses:
@@ -95,6 +104,7 @@ router.route('/players')
  * @swagger
  * /players/{id}:
  *   get:
+ *     tags: [Players]
  *     summary: Get a player by ID
  *     description: Retrieves a player by their unique identifier.
  *     parameters:
@@ -124,6 +134,7 @@ router.route('/players')
  *       404:
  *         description: Player not found
  *   delete:
+ *     tags: [Players]
  *     summary: Delete a player by ID
  *     description: Deletes a player by their unique identifier.
  *     parameters:

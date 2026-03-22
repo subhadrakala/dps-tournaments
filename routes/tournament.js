@@ -7,8 +7,18 @@ const router = express.Router();
 
 /**
  * @swagger
+ * tags:
+ *   - name: Tournaments
+ *     description: Tournament management
+ *   - name: Tournament Players
+ *     description: Managing players within tournaments
+ */
+
+/**
+ * @swagger
  * /tournaments:
  *   post:
+ *     tags: [Tournaments]
  *     summary: Create a new tournament
  *     description: Creates a new tournament with the given details.
  *     requestBody:
@@ -55,6 +65,7 @@ const router = express.Router();
  *         description: Invalid request
  *
  *   get:
+ *     tags: [Tournaments]
  *     summary: Get all tournaments
  *     description: Retrieves all tournaments.
  *     responses:
@@ -106,6 +117,7 @@ router.route('/tournaments')
  * @swagger
  * /tournaments/{id}:
  *   put:
+ *     tags: [Tournaments]
  *     summary: Update a tournament
  *     description: Updates a tournament with the given details.
  *     parameters:
@@ -154,6 +166,7 @@ router.route('/tournaments')
  *         description: Tournament not found
  * 
  *   get:
+ *     tags: [Tournaments]
  *     summary: Get a tournament by ID
  *     description: Retrieves a tournament by its unique identifier.
  *     parameters:
@@ -205,6 +218,7 @@ router.route('/tournaments')
  *         description: Tournament not found
  * 
  *   delete:
+ *     tags: [Tournaments]
  *     summary: Delete a tournament
  *     description: Deletes a tournament by its unique identifier.
  *     parameters:
@@ -278,6 +292,7 @@ router.route('/tournaments/:id')
  * @swagger
  * /tournaments/{id}/players:
  *   post:
+ *     tags: [Tournament Players]
  *     summary: Add a player to a tournament
  *     description: Adds a player to a tournament.
  *     parameters:
@@ -337,6 +352,7 @@ router.route('/tournaments/:id')
  *         description: Tournament not found
  * 
  *   get:
+ *     tags: [Tournament Players]
  *     summary: Get all players in a tournament
  *     description: Retrieves all players in a tournament.
  *     parameters:
@@ -414,6 +430,7 @@ router.route('/tournaments/:id/players')
  * @swagger
  * /tournaments/{id}/leaderboard:
  *   get:
+ *     tags: [Tournaments]
  *     summary: Get the leaderboard of a tournament
  *     description: Retrieves the leaderboard of a tournament.
  *     parameters:

@@ -28,6 +28,12 @@ const swaggerOptions = {
       {
         url: `http://localhost:${PORT}`
       }
+    ],
+    tags: [
+      { name: 'Tournaments', description: 'Tournament management' },
+      { name: 'Players', description: 'Player management' },
+      { name: 'Tournament Players', description: 'Managing players within tournaments' },
+      { name: 'Games', description: 'Game management' }
     ]
   },
   apis: ['./routes/*.js']

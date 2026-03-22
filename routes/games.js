@@ -7,8 +7,16 @@ const router = express.Router();
 
 /**
  * @swagger
+ * tags:
+ *   - name: Games
+ *     description: Game management
+ */
+
+/**
+ * @swagger
  * /games:
  *   post:
+ *     tags: [Games]
  *     summary: Create a new game
  *     description: Creates a new game with the given details.
  *     requestBody:
