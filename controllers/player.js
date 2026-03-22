@@ -69,7 +69,7 @@ export const deletePlayer = async (req, res, next) => {
         const player = await playerService.deletePlayer(id);
         const games = await gameService.deleteGamesByPlayerId(id);
         const tournaments = await tournamentService.deletePlayerFromTournament(id);    
-        res.status(200).json(player);
+        return player;
     } catch (error) {
         next(error);
     }
