@@ -23,6 +23,7 @@ const router = express.Router();
  *               name: 
  *                 type: string
  *                 description: Name of the player
+ *                 example: Test Player
  *     responses:
  *       201:
  *         description: Player created successfully
@@ -34,9 +35,11 @@ const router = express.Router();
  *                 id: 
  *                   type: integer
  *                   description: Player ID
+ *                   example: 1
  *                 name: 
  *                   type: string
  *                   description: Name of the player
+ *                   example: Test Player
  *       400:
  *         description: Invalid request
  *   get:   
@@ -53,11 +56,13 @@ const router = express.Router();
  *                 type: object
  *                 properties:
  *                   id: 
- *                   type: integer
- *                   description: Player ID
- *                 name: 
- *                   type: string
- *                   description: Name of the player
+ *                     type: integer
+ *                     description: Player ID
+ *                     example: 1
+ *                   name: 
+ *                     type: string
+ *                     description: Name of the player
+ *                     example: Test Player
  *       404:
  *         description: Players not found
  */
@@ -99,6 +104,7 @@ router.route('/players')
  *         schema:
  *           type: integer
  *           format: int64
+ *           example: 1
  *     responses:
  *       200:
  *         description: Player found successfully
@@ -110,9 +116,11 @@ router.route('/players')
  *                 id: 
  *                   type: integer
  *                   description: Player ID
+ *                   example: 1
  *                 name: 
  *                   type: string
  *                   description: Name of the player
+ *                   example: Test Player
  *       404:
  *         description: Player not found
  *   delete:
@@ -125,6 +133,7 @@ router.route('/players')
  *         schema:
  *           type: integer
  *           format: int64
+ *           example: 1
  *     responses:
  *       200:
  *         description: Player deleted successfully
@@ -136,9 +145,11 @@ router.route('/players')
  *                 id: 
  *                   type: integer
  *                   description: Player ID
+ *                   example: 1
  *                 name: 
  *                   type: string
  *                   description: Name of the player
+ *                   example: Test Player
  *       404:
  *         description: Player not found
  */ 

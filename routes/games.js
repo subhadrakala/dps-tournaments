@@ -27,18 +27,23 @@ const router = express.Router();
  *               tournamentId: 
  *                 type: integer
  *                 description: Tournament ID
+ *                 example: 1
  *               player1Id: 
  *                 type: integer
  *                 description: Player 1 ID
+ *                 example: 1
  *               player2Id: 
  *                 type: integer
  *                 description: Player 2 ID
+ *                 example: 2
  *               player1Score: 
  *                 type: integer
  *                 description: Player 1 Score
+ *                 example: 0
  *               player2Score: 
  *                 type: integer
  *                 description: Player 2 Score
+ *                 example: 1
  *     responses:
  *       201:
  *         description: Game created successfully
@@ -50,21 +55,27 @@ const router = express.Router();
  *                 id: 
  *                   type: integer
  *                   description: Game ID
+ *                   example: 1
  *                 tournamentId: 
  *                   type: integer
  *                   description: Tournament ID
+ *                   example: 1
  *                 player1Id: 
  *                   type: integer
  *                   description: Player 1 ID
+ *                   example: 1
  *                 player2Id: 
  *                   type: integer
  *                   description: Player 2 ID
+ *                   example: 2
  *                 score1: 
  *                   type: integer
  *                   description: Player 1 Score
+ *                   example: 0
  *                 score2: 
  *                   type: integer
  *                   description: Player 2 Score
+ *                   example: 2
  *       400:
  *         description: Invalid request
  */

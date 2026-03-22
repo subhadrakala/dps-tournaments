@@ -21,13 +21,15 @@ const router = express.Router();
  *               - name
  *               - status
  *             properties:
- *               name: 
+ *               name:
  *                 type: string
  *                 description: Name of the tournament
- *               status: 
- *                 type: enum
+ *                 example: Test Tournament
+ *               status:
+ *                 type: string
  *                 enum: ["planning", "started", "finished"]
  *                 description: Status of the tournament
+ *                 example: planning
  *     responses:
  *       201:
  *         description: Tournament created successfully
@@ -36,19 +38,22 @@ const router = express.Router();
  *             schema:
  *               type: object
  *               properties:
- *                 id: 
+ *                 id:
  *                   type: integer
  *                   description: Tournament ID
- *                 name: 
+ *                   example: 1
+ *                 name:
  *                   type: string
  *                   description: Name of the tournament
- *                 status: 
- *                   type: enum
+ *                   example: Test Tournament
+ *                 status:
+ *                   type: string
  *                   enum: ["planning", "started", "finished"]
  *                   description: Status of the tournament
+ *                   example: planning
  *       400:
  *         description: Invalid request
- * 
+ *
  *   get:
  *     summary: Get all tournaments
  *     description: Retrieves all tournaments.
@@ -62,16 +67,19 @@ const router = express.Router();
  *               items:
  *                 type: object
  *                 properties:
- *                   id: 
+ *                   id:
  *                     type: integer
  *                     description: Tournament ID
- *                   name: 
+ *                     example: 1
+ *                   name:
  *                     type: string
  *                     description: Name of the tournament
- *                   status: 
- *                     type: enum
+ *                     example: Test Tournament
+ *                   status:
+ *                     type: string
  *                     enum: ["planning", "started", "finished"]
  *                     description: Status of the tournament
+ *                     example: planning
  */
 router.route('/tournaments')
     .post(
@@ -107,6 +115,7 @@ router.route('/tournaments')
  *         schema:
  *           type: integer
  *           format: int64
+ *           example: 1
  *     requestBody:
  *       required: true
  *       content:
@@ -117,9 +126,10 @@ router.route('/tournaments')
  *               - status
  *             properties:
  *               status: 
- *                 type: enum
+ *                 type: string
  *                 enum: ["planning", "started", "finished"]
  *                 description: Status of the tournament
+ *                 example: started
  *     responses:
  *       200:
  *         description: Tournament updated successfully
@@ -131,13 +141,15 @@ router.route('/tournaments')
  *                 id: 
  *                   type: integer
  *                   description: Tournament ID
+ *                   example: 1
  *                 name: 
  *                   type: string
  *                   description: Name of the tournament
  *                 status: 
- *                   type: enum
+ *                   type: string
  *                   enum: ["planning", "started", "finished"]
  *                   description: Status of the tournament
+ *                   example: started
  *       404:
  *         description: Tournament not found
  * 
@@ -163,7 +175,7 @@ router.route('/tournaments')
  *                   type: string
  *                   description: Name of the tournament
  *                 tournamentStatus: 
- *                   type: enum
+ *                   type: string
  *                   enum: ["planning", "started", "finished"]
  *                   description: Status of the tournament
  *                 players: 
@@ -202,6 +214,7 @@ router.route('/tournaments')
  *         schema:
  *           type: integer
  *           format: int64
+ *           example: 1
  *     responses:
  *       200:
  *         description: Tournament deleted successfully
@@ -213,13 +226,16 @@ router.route('/tournaments')
  *                 id: 
  *                   type: integer
  *                   description: Tournament ID
+ *                   example: 1
  *                 name: 
  *                   type: string
  *                   description: Name of the tournament
+ *                   example: Test Tournament
  *                 status: 
- *                   type: enum
+ *                   type: string
  *                   enum: ["planning", "started", "finished"]
  *                   description: Status of the tournament
+ *                   example: planning
  *       404:
  *         description: Tournament not found
  */
@@ -271,6 +287,7 @@ router.route('/tournaments/:id')
  *         schema:
  *           type: integer
  *           format: int64
+ *           example: 1
  *     requestBody:
  *       required: true
  *       content:
@@ -283,6 +300,7 @@ router.route('/tournaments/:id')
  *               playerId: 
  *                 type: integer
  *                 description: Player ID
+ *                 example: 1
  *     responses:
  *       201:
  *         description: Player added to tournament successfully
@@ -294,22 +312,28 @@ router.route('/tournaments/:id')
  *                 id: 
  *                   type: integer
  *                   description: Tournament ID
+ *                   example: 1
  *                 name: 
  *                   type: string
  *                   description: Name of the tournament
+ *                   example: Test Tournament
  *                 totalScores: 
  *                   type: integer
  *                   description: Total scores of the tournament
+ *                   example: 6
  *                 totalWins: 
  *                   type: integer
  *                   description: Total wins of the tournament
+ *                   example: 2
  *                 totalLosses: 
  *                   type: integer
  *                   description: Total losses of the tournament
+ *                   example: 0
  *                 totalDraws: 
  *                   type: integer
  *                   description: Total draws of the tournament
- *        404:
+ *                   example: 2
+ *       404:
  *         description: Tournament not found
  * 
  *   get:
@@ -322,6 +346,7 @@ router.route('/tournaments/:id')
  *         schema:
  *           type: integer
  *           format: int64
+ *           example: 1
  *     responses:
  *       200:
  *         description: Players found successfully
@@ -330,26 +355,33 @@ router.route('/tournaments/:id')
  *             schema:
  *               type: array
  *               items:
- *                     type: object
- *                     properties:
- *                       playerId: 
- *                         type: integer
- *                         description: Player ID
- *                       tournamentId: 
- *                         type: integer
- *                         description: Tournament ID
- *                       totalScore: 
- *                         type: integer
- *                         description: Score of the player
- *                       totalWins: 
- *                         type: integer
- *                         description: Total wins of the player
- *                       totalLosses: 
- *                         type: integer
- *                         description: Total losses of the player
- *                       totalDraws: 
- *                         type: integer
- *                         description: Total draws of the player
+ *                 type: object
+ *                 properties:
+ *                   playerId: 
+ *                     type: integer
+ *                     description: Player ID
+ *                     example: 1
+ *                   tournamentId: 
+ *                     type: integer
+ *                     description: Tournament ID
+ *                     example: 1
+ *                   totalScore: 
+ *                     type: integer
+ *                     description: Score of the player
+ *                     example: 6
+ *                   totalWins: 
+ *                     type: integer
+ *                     description: Total wins of the player
+ *                     example: 3
+ *                   totalLosses: 
+ *                     type: integer
+ *                     description: Total losses of the player
+ *                     example: 0
+ *                   totalDraws: 
+ *                     type: integer
+ *                     description: Total draws of the player
+ *                     example: 0
+ * 
  *       404:
  *         description: Tournament not found
  */
@@ -378,6 +410,61 @@ router.route('/tournaments/:id/players')
         }
     )
 
+/**
+ * @swagger
+ * /tournaments/{id}/leaderboard:
+ *   get:
+ *     summary: Get the leaderboard of a tournament
+ *     description: Retrieves the leaderboard of a tournament.
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *           format: int64
+ *           example: 1
+ *     responses:
+ *       200:
+ *         description: Leaderboard found successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   playerId: 
+ *                     type: integer
+ *                     description: Player ID
+ *                     example: 1
+ *                   playerName: 
+ *                     type: string
+ *                     description: Name of the player
+ *                     example: Test Player
+ *                   tournamentId: 
+ *                     type: integer
+ *                     description: Tournament ID
+ *                     example: 1
+ *                   totalScore: 
+ *                     type: integer
+ *                     description: Score of the player
+ *                     example: 6
+ *                   totalWins: 
+ *                     type: integer
+ *                     description: Total wins of the player
+ *                     example: 3
+ *                   totalLosses: 
+ *                     type: integer
+ *                     description: Total losses of the player
+ *                     example: 0
+ *                   totalDraws: 
+ *                     type: integer
+ *                     description: Total draws of the player
+ *                     example: 0
+ *       404:
+ *         description: Tournament not found
+ */
 router.route('/tournaments/:id/leaderboard')
     .get(
         validateRequest(tournamentValidations.getTournamentByIdSchema),
