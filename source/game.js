@@ -24,7 +24,8 @@ export const getGameByPlayerIdTournamentId = async (tournamentId, player1Id, pla
                 tournamentId,
                 player1Id,
                 player2Id
-            }
+            },
+            attributes: {exclude: ['createdAt', 'updatedAt']}
         });
         return game;
     } catch (error) {

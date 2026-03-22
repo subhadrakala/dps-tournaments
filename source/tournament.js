@@ -16,7 +16,9 @@ export const createTournament = async (name, status) => {
 
 export const getAllTournaments = async () => {
     try {
-        const tournaments = await Tournament.findAll();
+        const tournaments = await Tournament.findAll({
+            attributes: {exclude: ['createdAt', 'updatedAt']}
+        });
         return tournaments;
     } catch (error) {
         console.error('Error fetching tournaments:', error);
@@ -31,10 +33,13 @@ export const updateTournament = async (id, status) => {
         }, {
             where: {
                 id
-            }
+            }   
         });
         if (affectedRows === 0) return null;
-        return await Tournament.findOne({ where: { id } });
+        return await Tournament.findOne({
+            where: { id },
+            attributes: {exclude: ['createdAt', 'updatedAt']}
+        });
     } catch (error) {
         console.error('Error updating tournament status:', error);
         throw error;
@@ -46,7 +51,8 @@ export const getTournamentById = async (id) => {
         const tournament = await Tournament.findOne({
             where: {
                 id
-            }
+            },
+            attributes: {exclude: ['createdAt', 'updatedAt']}
         });
 
         return tournament;
@@ -58,7 +64,10 @@ export const getTournamentById = async (id) => {
 
 export const deleteTournament = async (id) => {
     try {
-        const tournament = await Tournament.findOne({ where: { id } });
+        const tournament = await Tournament.findOne({
+            where: { id },
+            attributes: {exclude: ['createdAt', 'updatedAt']}
+        });
         if (!tournament) return null;
         
         await Tournament.destroy({
@@ -88,7 +97,10 @@ export const addPlayerToTournament = async (tournamentId, playerId) => {
 
 export const getPlayersCountForTournament = async (tournamentId) => {
     try {
-        const playersCount = await TournamentPlayer.count({ where: { tournamentId } });
+        const playersCount = await TournamentPlayer.count({
+            where: { tournamentId },
+            attributes: {exclude: ['createdAt', 'updatedAt']}
+        });
         return playersCount;
     } catch (error) {
         console.error('Error fetching players count:', error);
@@ -98,7 +110,10 @@ export const getPlayersCountForTournament = async (tournamentId) => {
 
 export const getAllPlayersForTournament = async (tournamentId) => {
     try {
-        const tournamentPlayers = await TournamentPlayer.findAll({ where: { tournamentId } });
+        const tournamentPlayers = await TournamentPlayer.findAll({
+            where: { tournamentId },
+            attributes: {exclude: ['createdAt', 'updatedAt']}
+        });
         return tournamentPlayers;
     } catch (error) {
         console.error('Error fetching tournament players:', error);
@@ -108,7 +123,10 @@ export const getAllPlayersForTournament = async (tournamentId) => {
 
 export const getPlayerForTournament = async (tournamentId, playerId) => {
     try {
-        const tournamentPlayers = await TournamentPlayer.findOne({ where: { tournamentId, playerId } });
+        const tournamentPlayers = await TournamentPlayer.findOne({
+            where: { tournamentId, playerId },
+            attributes: {exclude: ['createdAt', 'updatedAt']}
+        });
         return tournamentPlayers;
     } catch (error) {
         console.error('Error fetching tournament players:', error);
@@ -127,7 +145,8 @@ export const updateGameDataInTournamentForPlayer = async (tournamentId, playerId
             where: {
                 tournamentId,
                 playerId
-            }
+            },
+            attributes: {exclude: ['createdAt', 'updatedAt']}
         });
         return tournamentPlayer;
     } catch (error) {
@@ -142,6 +161,7 @@ export const getTournamentInfo = async (tournamentId) => {
             where: {
                 tournamentId
             },
+            attributes: {exclude: ['createdAt', 'updatedAt']},
             order: [
                 ['totalScore', 'DESC'],
                 ['totalWins', 'DESC'],
