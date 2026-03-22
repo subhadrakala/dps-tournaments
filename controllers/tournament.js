@@ -73,7 +73,7 @@ export const addPlayerToTournament = async (req, res, next) => {
         if (!player) return res.status(404).json({ message: "Player not found" });
 
         const currentTournamentPlayers = await tournamentService.getPlayersCountForTournament(tournamentId);
-        console.log(currentTournamentPlayers);
+
         if (currentTournamentPlayers >= MAX_PLAYERS_PER_TOURNAMENT) {
             return res.status(400).json({ message: "Tournament is full" });
         }
@@ -122,7 +122,7 @@ export const getTournamentInfo = async (req, res, next) => {
 
         for (const player of tournamentInfo) {
             let playerName = await playerService.getPlayerById(player.playerId);
-            console.log("playerName: ", playerName.dataValues.name);
+
             let playerinfo = {
                 playerId: player.playerId,
                 playerName: playerName.dataValues.name,
@@ -131,7 +131,7 @@ export const getTournamentInfo = async (req, res, next) => {
                 totalLosses: player.totalLosses,
                 totalDraws: player.totalDraws,
             }
-            console.log("playerinfo: ", playerinfo);
+       
             players.push(playerinfo);
         }
 

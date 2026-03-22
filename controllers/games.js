@@ -8,9 +8,7 @@ export const createGame = async (req, res, next) => {
         const player2Id = req.body.player2Id;
         const tournamentId = req.body.tournamentId;
         const player1Score = req.body.player1Score;
-        const player2Score = req.body.player2Score;
-
-        console.log(player1Id, player2Id, tournamentId, player1Score, player2Score);    
+        const player2Score = req.body.player2Score; 
 
         const tournament = await tournamentService.getTournamentById(tournamentId);
         if (!tournament) return res.status(404).json({ message: "Tournament not found" });
@@ -20,6 +18,8 @@ export const createGame = async (req, res, next) => {
 
         const player2 = await playerService.getPlayerById(player2Id);
         if (!player2) return res.status(404).json({ message: "Player2 not found" });
+
+        if(tournament.status !== 'started') return res.status(400).json({ message: "Tournament must be in progress (started) to create a game" });
 
         const player1DataInTournament = await tournamentService.getPlayerForTournament(tournamentId, player1Id);
         if (player1DataInTournament == null) return res.status(400).json({ message: "Player1 not added to tournament" });

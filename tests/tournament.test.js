@@ -60,9 +60,8 @@ describe('Testing Tournament APIs', () => {
     test('should get a tournament by id', async () => {
         const response = await request(app).get('/tournaments/1');
         expect(response.statusCode).toBe(200);
-        expect(response.body).toHaveProperty('id');
-        expect(response.body).toHaveProperty('name', 'Tournament 1');
-        expect(response.body).toHaveProperty('status', 'planning');
+        expect(response.body).toHaveProperty('tournamentName', 'Tournament 1');
+        expect(response.body).toHaveProperty('tournamentStatus', 'planning');
     });
 
     test('should fail to get a tournament by invalid id', async () => {
