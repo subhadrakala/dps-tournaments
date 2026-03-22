@@ -1,20 +1,20 @@
 import express from "express";
 import * as tournamentController from "../controllers/tournament.js";
 import { validateRequest } from "../middleware/validation.js";
-import { createTournamentSchema, updateTournamentSchema, getTournamentByIdSchema, deleteTournamentSchema } from "../validations/tournamentValidations.js";
+import * as tournamentValidations from "../validations/tournamentValidations.js";
 
 const router = express.Router();
 
 router.route('/tournaments')
     .post(
-        validateRequest(createTournamentSchema), async (req, res, next) => {
-        try {
-            const result = await tournamentController.createTournament(req, res, next);
-            res.status(201).json(result);
-        } catch (error) {
-            next(error);
-        }
-    })
+        validateRequest(tournamentValidations.createTournamentSchema), async (req, res, next) => {
+            try {
+                const result = await tournamentController.createTournament(req, res, next);
+                res.status(201).json(result);
+            } catch (error) {
+                next(error);
+            }
+        })
     .get(async (req, res, next) => {
         try {
             const result = await tournamentController.getAllTournaments(req, res, next);
@@ -26,37 +26,76 @@ router.route('/tournaments')
 
 router.route('/tournaments/:id')
     .put(
-        validateRequest(updateTournamentSchema),
+        validateRequest(tournamentValidations.updateTournamentSchema),
         async (req, res, next) => {
-        try {
-            const result = await tournamentController.updateTournament(req, res, next);
-            if (!result) return res.status(404).json({ message: "Not found" });
-            res.status(200).json(result);
-        } catch (error) {
-            next(error);
-        }
-    })
+            try {
+                const result = await tournamentController.updateTournament(req, res, next);
+                if (!result) return res.status(404).json({ message: "Not found" });
+                res.status(201).json(result);
+            } catch (error) {
+                next(error);
+            }
+        })
     .get(
-        validateRequest(getTournamentByIdSchema),
+        validateRequest(tournamentValidations.getTournamentByIdSchema),
         async (req, res, next) => {
-        try {
-            const result = await tournamentController.getTournamentById(req, res, next);
-            if (!result) return res.status(404).json({ message: "Not found" });
-            res.status(200).json(result);
-        } catch (error) {
-            next(error);
-        }
-    })
+            try {
+                const result = await tournamentController.getTournamentById(req, res, next);
+                if (!result) return res.status(404).json({ message: "Not found" });
+                res.status(200).json(result);
+            } catch (error) {
+                next(error);
+            }
+        })
     .delete(
-        validateRequest(deleteTournamentSchema),
+        validateRequest(tournamentValidations.deleteTournamentSchema),
         async (req, res, next) => {
-        try {
-            const result = await tournamentController.deleteTournament(req, res, next);
-            if (!result) return res.status(404).json({ message: "Not found" });
-            res.status(200).json(result);
-        } catch (error) {
-            next(error);
+            try {
+                const result = await tournamentController.deleteTournament(req, res, next);
+                if (!result) return res.status(404).json({ message: "Not found" });
+                res.status(201).json(result);
+            } catch (error) {
+                next(error);
+            }
+        });
+
+router.route('/tournaments/:id/players')
+    .post(
+        validateRequest(tournamentValidations.addPlayerToTournamentSchema),
+        async (req, res, next) => {
+            try {
+                const result = await tournamentController.addPlayerToTournament(req, res, next);
+                if (!result) return res.status(404).json({ message: "Not found" });
+                res.status(201).json(result);
+            } catch (error) {
+                next(error);
+            }
+        })
+    .get(
+        validateRequest(tournamentValidations.getTournamentPlayersSchema),
+        async (req, res, next) => {
+            try {
+                const result = await tournamentController.getAllPlayersForTournament(req, res, next);
+                if (!result) return res.status(404).json({ message: "Not found" });
+                res.status(200).json(result);
+            } catch (error) {
+                next(error);
+            }
         }
-    });
+    )
+
+router.route('tournaments/:id/info')
+    .get(
+        validateRequest(tournamentValidations.getTournamentPlayerSchema),
+        async (req, res, next) => {
+            try {
+                const result = await tournamentController.getTournamentInfo(req, res, next);
+                if (!result) return res.status(404).json({ message: "Not found" });
+                res.status(200).json(result);
+            } catch (error) {
+                next(error);xx
+            }
+        }
+    )
 
 export default router;

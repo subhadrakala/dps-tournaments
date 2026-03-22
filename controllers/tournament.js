@@ -1,4 +1,6 @@
 import * as tournamentService from "../source/tournament.js";
+import * as playerService from "../source/player.js";
+import { MAX_PLAYERS_PER_TOURNAMENT } from "../common/constants.js";
 
 export const createTournament = async (req, res, next) => {
     try {
@@ -59,6 +61,66 @@ export const deleteTournament = async (req, res, next) => {
         return tournament;
     } catch (error) {
         console.error('Error deleting tournament:', error);
+        throw error;
+    }
+}
+
+export const addPlayerToTournament = async (req, res, next) => {
+    try {
+        const tournamentId = req.params.id;
+        const playerId = req.body.playerId;
+
+        const tournament = await tournamentService.getTournamentById(tournamentId);
+        if (!tournament) return res.status(404).json({ message: "Tournament not found" });
+
+        const player = await playerService.getPlayerById(playerId);
+        if (!player) return res.status(404).json({ message: "Player not found" });
+
+        const currentTournamentPlayers = await tournamentService.getPlayersCountForTournament(tournamentId);
+        if (currentTournamentPlayers.length >= MAX_PLAYERS_PER_TOURNAMENT) {
+            return res.status(400).json({ message: "Tournament is full" });
+        }
+
+        const checkPlayerAlreadyAdded = await tournamentService.getPlayerForTournament(tournamentId, playerId);
+        if (checkPlayerAlreadyAdded) {
+            return res.status(400).json({ message: "Player already added to tournament" });
+        }
+
+        const tournamentPlayers = await tournamentService.addPlayerToTournament(tournamentId, playerId);
+        return tournamentPlayers;
+    } catch (error) {
+        console.error('Error adding player to tournament:', error);
+        throw error;
+    }
+}
+
+export const getAllPlayersForTournament = async (req, res, next) => {
+    try {
+        const tournamentId = req.params.id;
+
+        const tournament = await tournamentService.getTournamentById(tournamentId);
+        if (!tournament) return res.status(404).json({ message: "Tournament not found" });
+
+        const tournamentPlayers = await tournamentService.getAllPlayersForTournament(tournamentId);
+        return tournamentPlayers;
+    } catch (error) {
+        console.error('Error fetching tournament players:', error);
+        throw error;
+    }
+}
+
+export const getTournamentInfo = async (req, res, next) => {
+    try {
+        const tournamentId = req.params.id;
+
+        const tournamentDetails = await tournamentService.getTournamentById(tournamentId);
+        if (!tournamentDetails) return res.status(404).json({ message: "Tournament not found" });
+
+        const tournamentInfo = await tournamentService.getTournamentInfo(tournamentId);
+        tournamentInfo.tournamentDetails = tournamentDetails;
+        return tournamentInfo;
+    } catch (error) {
+        console.error('Error fetching tournament info:', error);
         throw error;
     }
 }

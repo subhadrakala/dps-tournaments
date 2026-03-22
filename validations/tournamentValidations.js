@@ -31,3 +31,18 @@ export const getTournamentByIdSchema = {
         id: z.coerce.number().int().positive("A valid Tournament id is required"),
     })
 };
+
+export const addPlayerToTournamentSchema = {
+    params: z.object({
+        id: z.coerce.number().int().positive("A valid Tournament id is required"),
+    }),
+    body: z.object({
+        playerId: z.coerce.number().int().positive("A valid Player id is required"),
+    })
+};
+
+export const getTournamentPlayersSchema = {
+    params: z.object({
+        id: z.coerce.number().int().positive("A valid Tournament id is required"),
+    })
+};

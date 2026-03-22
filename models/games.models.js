@@ -34,10 +34,12 @@ const Games = sequelize.define('Games', {
     score1: {
         type: DataTypes.INTEGER,
         allowNull: false,
+        defaultValue: 0,
     },
     score2: {
         type: DataTypes.INTEGER,
         allowNull: false,
+        defaultValue: 0,
     }
 });
 

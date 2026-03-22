@@ -2,6 +2,7 @@ import express from "express";
 import sequelize from "./common/database.js";
 import tournamentRouter from "./routes/tournament.js";
 import playerRouter from "./routes/player.js";
+import gameRouter from "./routes/games.js";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -9,7 +10,7 @@ const PORT = process.env.PORT || 3000;
 app.use(express.json());
 app.use(tournamentRouter)
 app.use(playerRouter);
-
+app.use(gameRouter);
 
 const isTest = process.env.NODE_ENV === 'test';
 

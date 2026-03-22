@@ -81,7 +81,7 @@ describe('Testing Tournament APIs', () => {
             .send({
                 status: 'started'
             });
-        expect(response.statusCode).toBe(200);
+        expect(response.statusCode).toBe(201);
         expect(response.body).toHaveProperty('id');
         expect(response.body).toHaveProperty('name', 'Tournament 1');
         expect(response.body).toHaveProperty('status', 'started');
@@ -116,7 +116,7 @@ describe('Testing Tournament APIs', () => {
 
     test('should delete a tournament', async () => {
         const response = await request(app).delete('/tournaments/1');
-        expect(response.statusCode).toBe(200);
+        expect(response.statusCode).toBe(201);
         expect(response.body).toHaveProperty('id');
         expect(response.body).toHaveProperty('name', 'Tournament 1');
         expect(response.body).toHaveProperty('status', 'started');
